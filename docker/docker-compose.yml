@@ -1,0 +1,80 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: cbtech
+      POSTGRES_PASSWORD: cbtech_password
+      POSTGRES_DB: cbtech_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gatums"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # MinIO: storage S3-compatível local para o upload de imagens.
+  # API S3 na 9000; console web (UI) na 9001 (http://localhost:9001,
+  # login minioadmin/minioadmin). Espelha a seção Storage do appsettings
+  # (Development/LocalDocker).
+  #
+  # NOTA sobre a imagem: a MinIO removeu as imagens da comunidade do Docker Hub
+  # (set/2026) e as do quay.io passaram a exigir login (401 em pull anônimo).
+  # Usamos a imagem da Bitnami, que seguiu publicamente disponível no namespace
+  # bitnamilegacy, pinada por digest para reprodutibilidade. A Bitnami cria o
+  # bucket declarativamente via MINIO_DEFAULT_BUCKETS (sufixo ":public" = leitura
+  # pública), então não é preciso um container separado com o mc.
+  minio:
+    image: bitnamilegacy/minio@sha256:451fe6858cb770cc9d0e77ba811ce287420f781c7c1b806a386f6896471a349c
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+      # Cria o bucket no startup e já o deixa com leitura pública (download).
+      MINIO_DEFAULT_BUCKETS: cbtech-imagens:public
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - miniodata:/bitnami/minio/data
+    healthcheck:
+      test: ["CMD-SHELL", "mc ready local || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # api:
+  #   build:
+  #     context: ..
+  #     dockerfile: docker/Dockerfile
+  #   environment:
+  #     ASPNETCORE_ENVIRONMENT: Development
+  #     ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=gatums;Username=gatums;Password=gatums_dev
+  #     Jwt__Secret: dev-secret-min-32-chars-for-hs256!!
+  #     Jwt__Issuer: CBTech
+  #     Jwt__Audience: CBTech.Web
+  #   ports:
+  #     - "5080:8080"
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+
+  # Seq: UI de logs estruturados (http://localhost:5341).
+  # O app (Development/LocalDocker) envia logs via Serilog Seq sink.
+  # Free para 1 usuário, dados ilimitados, sem custo.
+  seq:
+    image: datalust/seq:latest
+    container_name: cbtech-seq
+    environment:
+      ACCEPT_EULA: "Y"
+    ports:
+      - "5341:80"
+    volumes:
+      - seqdata:/data
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  miniodata:
+  seqdata:
