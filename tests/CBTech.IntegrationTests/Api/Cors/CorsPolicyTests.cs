@@ -11,7 +11,7 @@ namespace CBTech.IntegrationTests.Api.Cors;
 /// Comportamento do CORS fora de Development: a policy só devolve o header
 /// Access-Control-Allow-Origin para origens que casam com as origens exatas
 /// (<c>Cors:AllowedOrigins</c>) ou com os padrões curinga
-/// (<c>Cors:AllowedOriginPatterns</c>, ex.: <c>https://gatums-gourmet*.vercel.app</c>).
+/// (<c>Cors:AllowedOriginPatterns</c>, ex.: <c>https://cbtech-gourmet*.vercel.app</c>).
 /// O ambiente de teste é "Test" (não-Development), então a policy restritiva vale.
 /// </summary>
 [Collection("Integration")]
@@ -75,7 +75,7 @@ public class CorsPolicyTests
     [Fact]
     public async Task OrigemVercelDeOutroProjeto_NaoRecebeAllowOrigin()
     {
-        // O padrão é gatums-gourmet*.vercel.app — não pode virar "qualquer vercel.app".
+        // O padrão é cbtech*.vercel.app — não pode virar "qualquer vercel.app".
         var resp = await GetComOrigin(ClientComCors(), "https://outro-projeto.vercel.app");
 
         resp.Headers.TryGetValues("Access-Control-Allow-Origin", out _).Should().BeFalse();
@@ -96,7 +96,7 @@ public class CorsPolicyTests
             }));
         });
 
-        // CreateClient dispara o build do host + pipeline (UseGatumsCors força a
+        // CreateClient dispara o build do host + pipeline (UseCBTechCors força a
         // resolução das opções) → deve lançar.
         var act = () => factory.CreateClient();
 

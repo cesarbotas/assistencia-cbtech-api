@@ -43,7 +43,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>, IAsyn
             ?? throw new InvalidOperationException("ConnectionStrings:DefaultConnection não configurada em appsettings.Test.json.");
 
         // Guarda de segurança: os testes DEVEM usar o banco de teste (sufixo _test).
-        // Impede rodar a suíte acidentalmente contra o banco 'gatums' (produção/dev),
+        // Impede rodar a suíte acidentalmente contra o banco 'cbtech' (produção/dev),
         // que agora coexiste no mesmo container de teste.
         var dbName = new NpgsqlConnectionStringBuilder(_connectionString).Database;
         if (string.IsNullOrWhiteSpace(dbName) || !dbName.EndsWith("_test", StringComparison.OrdinalIgnoreCase))
@@ -125,7 +125,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>, IAsyn
 
         // Reforço à prova de precedência de configuração: o appsettings.json da API
         // (content root) pode sobrescrever o appsettings.Test.json em algumas ordens de
-        // carga, fazendo o DbContext apontar para o banco de produção ('gatums'). Aqui
+        // carga, fazendo o DbContext apontar para o banco de produção ('cbtech'). Aqui
         // removemos o registro do DbContext e o re-registramos explicitamente com a
         // connection string de teste. ConfigureTestServices roda por último, então vence.
         builder.ConfigureTestServices(services =>

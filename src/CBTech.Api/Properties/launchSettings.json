@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "Gatums.Gourmet.Api": {
+    "CBTech.Api": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
@@ -19,7 +19,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Gatums.Gourmet.Api.Https": {
+    "CBTech.Api.Https": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

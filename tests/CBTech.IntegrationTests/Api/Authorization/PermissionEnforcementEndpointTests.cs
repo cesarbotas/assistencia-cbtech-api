@@ -2,7 +2,6 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using FluentAssertions;
-using CBTech.IntegrationTests.Application.UseCases.V1.Produtos.CreateProduto;
 using CBTech.IntegrationTests.Factory;
 using Xunit;
 

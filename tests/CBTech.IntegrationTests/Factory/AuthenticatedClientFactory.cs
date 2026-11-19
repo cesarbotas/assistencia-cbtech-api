@@ -2,6 +2,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using CBTech.Domain.Entities.Auth;
+using CBTech.Domain.Entities.Auth.Usuarios;
 using CBTech.Domain.Services.Interfaces;
 using CBTech.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +32,7 @@ public static class AuthenticatedClientFactory
         this CustomWebApplicationFactory factory, string roleNome)
     {
         using var scope = factory.Services.CreateScope();
-        var db = scope.ServiceProvider.GetRequiredService<GatumsDbContext>();
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         var hasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
         var clock = scope.ServiceProvider.GetRequiredService<IClock>();
 
@@ -40,7 +41,7 @@ public static class AuthenticatedClientFactory
         {
             Id = Guid.NewGuid(),
             Nome = $"Usuário {roleLower}",
-            Email = $"{roleLower}-{Guid.NewGuid():N}@gatums.com",
+            Email = $"{roleLower}-{Guid.NewGuid():N}@cbtech.com",
             SenhaHash = hasher.Hash("senha123"),
             Ativo = true,
             CriadoEm = clock.UtcNow
