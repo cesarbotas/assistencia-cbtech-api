@@ -7,6 +7,7 @@ using CBTech.Infrastructure.Services.Enderecos;
 using CBTech.Infrastructure.Services.Storage;
 using Amazon.Runtime;
 using Amazon.S3;
+using CBTech.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,8 @@ public static class InfrastructureServiceCollectionExtensions
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IPermissionRepository, PermissionRepository>();
         services.AddScoped<IRefreshTokenStore, RefreshTokenStore>();
+
+        services.AddScoped<IClock, SystemClock>();
 
         services.AddScoped<IPasswordHasher, BcryptPasswordHasher>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
