@@ -7,7 +7,7 @@ using CBTech.Application.UseCases.V1.Permissions.ListPermissions;
 using CBTech.Application.UseCases.V1.Permissions.UpdatePermission;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CBTech.Api.Endpoints.V1;
+namespace CBTech.Api.Endpoints.V1.Auth;
 
 public static class PermissionsEndpoints
 {

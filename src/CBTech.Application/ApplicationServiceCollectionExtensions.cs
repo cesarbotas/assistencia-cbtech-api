@@ -6,6 +6,7 @@ using CBTech.Application.UseCases.V1.Auth.LogoutAll;
 using CBTech.Application.UseCases.V1.Auth.RefreshToken;
 using CBTech.Application.UseCases.V1.Auth.RegisterUser;
 using CBTech.Application.UseCases.V1.Clientes.AtualizarCliente;
+using CBTech.Application.UseCases.V1.Clientes.ConsultarClientePorId;
 using CBTech.Application.UseCases.V1.Clientes.CriarCliente;
 using CBTech.Application.UseCases.V1.Clientes.ExcluirCliente;
 using CBTech.Application.UseCases.V1.Clientes.ListarClientes;
@@ -88,6 +89,7 @@ public static class ApplicationServiceCollectionExtensions
         services.AddScoped<ICriarClienteHandler, CriarClienteHandler>();
         services.AddScoped<IAtualizarClienteHandler, AtualizarClienteHandler>();
         services.AddScoped<IExcluirClienteHandler, ExcluirClienteHandler>();
+        services.AddScoped<IConsultarClientePorIdHandler, ConsultarClientePorIdHandler>();
 
         #endregion
 

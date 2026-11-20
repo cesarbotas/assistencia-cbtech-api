@@ -9,7 +9,7 @@ using CBTech.Application.UseCases.V1.Auth.RefreshToken;
 using CBTech.Application.UseCases.V1.Auth.RegisterUser;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CBTech.Api.Endpoints.V1;
+namespace CBTech.Api.Endpoints.V1.Auth;
 
 public static class AuthEndpoints
 {

@@ -1,5 +1,6 @@
 using CBTech.Api.Authorization;
 using CBTech.Api.Extensions;
+using CBTech.Application.UseCases.V1.Clientes;
 using CBTech.Application.UseCases.V1.Clientes.AtualizarCliente;
 using CBTech.Application.UseCases.V1.Clientes.ConsultarClientePorId;
 using CBTech.Application.UseCases.V1.Clientes.ListarClientes;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CBTech.Api.Endpoints.V1.Clientes;
 
-public static class ClientesEndpoint
+public static class ClientesEndpoints
 {
     public static void Map(RouteGroupBuilder group)
     {
@@ -22,6 +23,7 @@ public static class ClientesEndpoint
                 var result = await handler.Handle(request.Normalized(), ct);
                 return result.ToHttpResult();
             })
+            .Produces<ClienteResponse>(StatusCodes.Status200OK)
             .RequirePermission("clientes:ler");
 
         group.MapGet("/{id:guid}", async (Guid id, IConsultarClientePorIdHandler handler, CancellationToken ct) =>
