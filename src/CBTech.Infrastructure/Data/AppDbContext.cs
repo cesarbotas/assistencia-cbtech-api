@@ -3,6 +3,9 @@ using CBTech.Domain.Entities.Auth;
 using CBTech.Domain.Entities.Auth.Usuarios;
 using Microsoft.EntityFrameworkCore.Design;
 using CBTech.Infrastructure.Data.Configurations.Auth;
+using CBTech.Domain.Entities.Clientes;
+using CBTech.Domain.Entities.Enderecos;
+using CBTech.Infrastructure.Data.Configurations.Clientes;
 
 namespace CBTech.Infrastructure.Data;
 
@@ -15,6 +18,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<UsuarioRole> UsuarioRoles => Set<UsuarioRole>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
+    public DbSet<Cliente> Clientes => Set<Cliente>();
+    public DbSet<Endereco> Enderecos => Set<Endereco>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UsuarioConfiguration());
@@ -23,6 +29,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.ApplyConfiguration(new RolePermissionConfiguration());
         modelBuilder.ApplyConfiguration(new UsuarioRoleConfiguration());
         modelBuilder.ApplyConfiguration(new RefreshTokenConfiguration());
+
+        modelBuilder.ApplyConfiguration(new ClienteConfiguration());
+        modelBuilder.ApplyConfiguration(new EnderecoConfiguration());
 
         base.OnModelCreating(modelBuilder);
     }

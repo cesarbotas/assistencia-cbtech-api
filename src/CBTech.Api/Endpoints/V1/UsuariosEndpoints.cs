@@ -14,7 +14,7 @@ public static class UsuariosEndpoints
 {
     public static void Map(RouteGroupBuilder group)
     {
-        group.MapGet("/", async (IListUsuariosHandler handler, CancellationToken ct) =>
+        group.MapGet("/", async (IListarUsuariosHandler handler, CancellationToken ct) =>
             (await handler.Handle(ct)).ToHttpResult())
             .RequirePermission("usuarios:gerenciar");
 

@@ -1,32 +1,8 @@
-using FluentValidation;
 using CBTech.Domain.Common;
 using CBTech.Domain.Entities.Auth;
 using CBTech.Domain.Repositories;
 
 namespace CBTech.Application.UseCases.V1.Permissions.CreatePermission;
-
-public record CreatePermissionRequest(string Codigo, string? Descricao, string Recurso, string Acao);
-public record CreatePermissionResponse(int Id);
-
-public class CreatePermissionValidator : AbstractValidator<CreatePermissionRequest>
-{
-    public CreatePermissionValidator()
-    {
-        RuleFor(x => x.Codigo)
-            .NotEmpty()
-            .MaximumLength(100)
-            .Must(c => c.Contains(':'))
-            .WithMessage("Código deve seguir o formato recurso:acao.");
-        RuleFor(x => x.Recurso).NotEmpty().MaximumLength(100);
-        RuleFor(x => x.Acao).NotEmpty().MaximumLength(100);
-        RuleFor(x => x.Descricao).MaximumLength(500);
-    }
-}
-
-public interface ICreatePermissionHandler
-{
-    Task<Result<CreatePermissionResponse>> Handle(CreatePermissionRequest request, CancellationToken ct = default);
-}
 
 public sealed class CreatePermissionHandler(IPermissionRepository permissions) : ICreatePermissionHandler
 {

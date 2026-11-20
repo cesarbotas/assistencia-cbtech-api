@@ -5,6 +5,11 @@ using CBTech.Application.UseCases.V1.Auth.Logout;
 using CBTech.Application.UseCases.V1.Auth.LogoutAll;
 using CBTech.Application.UseCases.V1.Auth.RefreshToken;
 using CBTech.Application.UseCases.V1.Auth.RegisterUser;
+using CBTech.Application.UseCases.V1.Clientes.AtualizarCliente;
+using CBTech.Application.UseCases.V1.Clientes.ConsultarClientePorId;
+using CBTech.Application.UseCases.V1.Clientes.CriarCliente;
+using CBTech.Application.UseCases.V1.Clientes.ExcluirCliente;
+using CBTech.Application.UseCases.V1.Clientes.ListarClientes;
 using CBTech.Application.UseCases.V1.Enderecos.BuscarEnderecoPorCep;
 using CBTech.Application.UseCases.V1.Roles.CreateRole;
 using CBTech.Application.UseCases.V1.Roles.DeleteRole;
@@ -33,6 +38,8 @@ public static class ApplicationServiceCollectionExtensions
     {
         services.AddValidatorsFromAssemblyContaining<LoginValidator>();
 
+        #region Login (Auth)
+
         services.AddScoped<ILoginHandler, LoginHandler>();
         services.AddScoped<IRegisterUserHandler, RegisterUserHandler>();
         services.AddScoped<IGetCurrentUserHandler, GetCurrentUserHandler>();
@@ -40,7 +47,11 @@ public static class ApplicationServiceCollectionExtensions
         services.AddScoped<ILogoutHandler, LogoutHandler>();
         services.AddScoped<ILogoutAllHandler, LogoutAllHandler>();
 
+        #endregion
+
         services.AddScoped<IBuscarEnderecoPorCepHandler, BuscarEnderecoPorCepHandler>();
+
+        #region User Role
 
         services.AddScoped<IListRolesHandler, ListRolesHandler>();
         services.AddScoped<IGetRoleByIdHandler, GetRoleByIdHandler>();
@@ -49,18 +60,38 @@ public static class ApplicationServiceCollectionExtensions
         services.AddScoped<IDeleteRoleHandler, DeleteRoleHandler>();
         services.AddScoped<ISetRolePermissionsHandler, SetRolePermissionsHandler>();
 
+        #endregion
+
+        #region User Permission
+
         services.AddScoped<IListPermissionsHandler, ListPermissionsHandler>();
         services.AddScoped<IGetPermissionByIdHandler, GetPermissionByIdHandler>();
         services.AddScoped<ICreatePermissionHandler, CreatePermissionHandler>();
         services.AddScoped<IUpdatePermissionHandler, UpdatePermissionHandler>();
         services.AddScoped<IDeletePermissionHandler, DeletePermissionHandler>();
 
-        services.AddScoped<IListUsuariosHandler, ListUsuariosHandler>();
+        #endregion
+
+        #region Usuarios
+
+        services.AddScoped<IListarUsuariosHandler, ListarUsuariosHandler>();
         services.AddScoped<IGetUsuarioByIdHandler, GetUsuarioByIdHandler>();
         services.AddScoped<ICreateUsuarioHandler, CreateUsuarioHandler>();
         services.AddScoped<ISetUsuarioRolesHandler, SetUsuarioRolesHandler>();
         services.AddScoped<ISetUsuarioAtivoHandler, SetUsuarioAtivoHandler>();
         services.AddScoped<IDeleteUsuarioHandler, DeleteUsuarioHandler>();
+
+        #endregion
+
+        #region Clientes
+
+        services.AddScoped<IListarClientesHandler, ListarClientesHandler>();
+        services.AddScoped<ICriarClienteHandler, CriarClienteHandler>();
+        services.AddScoped<IAtualizarClienteHandler, AtualizarClienteHandler>();
+        services.AddScoped<IExcluirClienteHandler, ExcluirClienteHandler>();
+        services.AddScoped<IConsultarClientePorIdHandler, ConsultarClientePorIdHandler>();
+
+        #endregion
 
         return services;
     }

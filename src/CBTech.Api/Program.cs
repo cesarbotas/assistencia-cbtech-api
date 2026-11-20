@@ -29,14 +29,7 @@ builder.Services.AddControllers()
 builder.Services.AddCBTechAuthentication(builder.Configuration);
 builder.Services.AddCBTechOpenApi();
 
-// CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-    });
-});
+builder.Services.AddCBTechCors();
 
 var app = builder.Build();
 
