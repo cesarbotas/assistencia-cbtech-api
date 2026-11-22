@@ -8,7 +8,7 @@ using CBTech.Application.UseCases.V1.Roles.SetRolePermissions;
 using CBTech.Application.UseCases.V1.Roles.UpdateRole;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CBTech.Api.Endpoints.V1;
+namespace CBTech.Api.Endpoints.V1.Auth;
 
 public static class RolesEndpoints
 {
