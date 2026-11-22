@@ -10,7 +10,7 @@ public class Usuario
     public bool Ativo { get; set; }
     public DateTime CriadoEm { get; set; }
     public ICollection<UsuarioRole> UsuarioRoles { get; set; } = [];
-    public ICollection<UsuarioTenant> UsuarioTenants { get; set; } = [];
+    // public ICollection<UsuarioTenant> UsuarioTenants { get; set; } = [];
 
     public Usuario() { }
 }

@@ -11,7 +11,7 @@ namespace CBTech.Api.Extensions;
 /// <item>Development/LocalDocker: libera qualquer origem (conveniência local).</item>
 /// <item>Demais ambientes (Release/Production): restringe às origens exatas
 /// (<c>Cors:AllowedOrigins</c>) e aos padrões curinga
-/// (<c>Cors:AllowedOriginPatterns</c>, ex.: <c>https://gatums-gourmet*.vercel.app</c>).</item>
+/// (<c>Cors:AllowedOriginPatterns</c>, ex.: <c>https://cbtech*.vercel.app</c>).</item>
 /// </list>
 /// Como a autenticação é Bearer (não cookie), NÃO habilitamos AllowCredentials.
 /// A policy valida a configuração no startup (fail-fast) para não subir HML/PRD
@@ -51,7 +51,7 @@ public static class CorsExtensions
             .ToArray();
 
     /// <summary>
-    /// Converte um padrão com <c>*</c> (ex.: <c>https://gatums-gourmet*.vercel.app</c>)
+    /// Converte um padrão com <c>*</c> (ex.: <c>https://cbtech*.vercel.app</c>)
     /// numa regex âncorada, onde <c>*</c> casa qualquer sequência exceto a barra de
     /// path (para o curinga não atravessar o host). O resto é escapado literalmente.
     /// </summary>

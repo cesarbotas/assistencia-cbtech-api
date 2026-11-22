@@ -3,12 +3,7 @@ using CBTech.Domain.Repositories;
 
 namespace CBTech.Application.UseCases.V1.Usuarios.ListUsuarios;
 
-public interface IListUsuariosHandler
-{
-    Task<Result<IReadOnlyList<UsuarioResponse>>> Handle(CancellationToken ct = default);
-}
-
-public sealed class ListUsuariosHandler(IUsuarioRepository usuarios) : IListUsuariosHandler
+public sealed class ListarUsuariosHandler(IUsuarioRepository usuarios) : IListarUsuariosHandler
 {
     public async Task<Result<IReadOnlyList<UsuarioResponse>>> Handle(CancellationToken ct = default)
     {

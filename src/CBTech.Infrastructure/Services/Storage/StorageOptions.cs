@@ -24,7 +24,7 @@ public sealed class StorageOptions
 
     /// <summary>
     /// Base usada para montar a URL pública retornada ao cliente
-    /// (ex.: <c>http://localhost:9000/gatums-imagens</c>).
+    /// (ex.: <c>http://localhost:9000/cbtech-imagens</c>).
     /// </summary>
     public string PublicBaseUrl { get; set; } = string.Empty;
 

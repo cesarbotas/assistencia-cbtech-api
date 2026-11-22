@@ -1,7 +1,7 @@
 using CBTech.Api.Extensions;
 using CBTech.Application.UseCases.V1.Enderecos.BuscarEnderecoPorCep;
 
-namespace CBTech.Api.Endpoints.V1;
+namespace CBTech.Api.Endpoints.V1.Enderecos;
 
 public static class EnderecosEndpoints
 {

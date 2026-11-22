@@ -7,6 +7,9 @@ using CBTech.Infrastructure.Services.Enderecos;
 using CBTech.Infrastructure.Services.Storage;
 using Amazon.Runtime;
 using Amazon.S3;
+using CBTech.Infrastructure.Data.Repositories.Clientes;
+using CBTech.Infrastructure.Data.Repositories.Marcas;
+using CBTech.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,10 +23,20 @@ public static class InfrastructureServiceCollectionExtensions
         services.AddDbContext<AppDbContext>(opt =>
             opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
+        #region Repositories
+
         services.AddScoped<IUsuarioRepository, UsuarioRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IPermissionRepository, PermissionRepository>();
         services.AddScoped<IRefreshTokenStore, RefreshTokenStore>();
+
+        services.AddScoped<IClienteRepository, ClienteRepository>();
+
+        services.AddScoped<IMarcaRepository, MarcaRepository>();
+
+        #endregion
+
+        services.AddScoped<IClock, SystemClock>();
 
         services.AddScoped<IPasswordHasher, BcryptPasswordHasher>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
