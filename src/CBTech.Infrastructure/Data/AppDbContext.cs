@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore.Design;
 using CBTech.Infrastructure.Data.Configurations.Auth;
 using CBTech.Domain.Entities.Clientes;
 using CBTech.Domain.Entities.Enderecos;
+using CBTech.Domain.Entities.Marcas;
 using CBTech.Infrastructure.Data.Configurations.Clientes;
+using CBTech.Infrastructure.Data.Configurations.Marcas;
 
 namespace CBTech.Infrastructure.Data;
 
@@ -21,6 +23,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Cliente> Clientes => Set<Cliente>();
     public DbSet<Endereco> Enderecos => Set<Endereco>();
 
+    public DbSet<Marca> Marcas => Set<Marca>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UsuarioConfiguration());
@@ -32,6 +36,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
         modelBuilder.ApplyConfiguration(new ClienteConfiguration());
         modelBuilder.ApplyConfiguration(new EnderecoConfiguration());
+
+        modelBuilder.ApplyConfiguration(new MarcaConfiguration());
 
         base.OnModelCreating(modelBuilder);
     }

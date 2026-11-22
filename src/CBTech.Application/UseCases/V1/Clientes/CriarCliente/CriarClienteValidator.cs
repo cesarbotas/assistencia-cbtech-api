@@ -1,3 +1,4 @@
+using CBTech.Domain.Entities.Clientes;
 using FluentValidation;
 
 namespace CBTech.Application.UseCases.V1.Clientes.CriarCliente;

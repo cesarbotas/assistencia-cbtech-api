@@ -8,6 +8,7 @@ using CBTech.Infrastructure.Services.Storage;
 using Amazon.Runtime;
 using Amazon.S3;
 using CBTech.Infrastructure.Data.Repositories.Clientes;
+using CBTech.Infrastructure.Data.Repositories.Marcas;
 using CBTech.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +31,8 @@ public static class InfrastructureServiceCollectionExtensions
         services.AddScoped<IRefreshTokenStore, RefreshTokenStore>();
 
         services.AddScoped<IClienteRepository, ClienteRepository>();
+
+        services.AddScoped<IMarcaRepository, MarcaRepository>();
 
         #endregion
 

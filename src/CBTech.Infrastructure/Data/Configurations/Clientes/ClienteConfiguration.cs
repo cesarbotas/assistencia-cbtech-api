@@ -1,4 +1,5 @@
 using CBTech.Domain.Entities.Clientes;
+using CBTech.Domain.Entities.Enderecos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -17,11 +18,8 @@ public class ClienteConfiguration : IEntityTypeConfiguration<Cliente>
         b.Property(x => x.AtualizadoEm);
 
         b.HasOne(x => x.Endereco)
-            .WithMany()
-            .HasForeignKey(x => x.Id)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        b.Navigation(x => x.Endereco)
-            .IsRequired();
+            .WithOne()
+            .HasForeignKey<Endereco>(e => e.ClienteId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

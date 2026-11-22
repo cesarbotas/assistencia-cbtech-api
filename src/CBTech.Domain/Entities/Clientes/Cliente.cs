@@ -12,6 +12,33 @@ public class Cliente
     public DateTime CriadoEm { get; set; }
     public DateTime AtualizadoEm { get; set; }
 
+    public static Cliente Criar(CriarClienteRequest request)
+    {
+        var clientId = Guid.NewGuid();
+
+        return new Cliente
+        {
+            Id = clientId,
+            Nome = request.Nome,
+            Email = request.Email,
+            Telefone = request.Telefone,
+            CriadoEm = DateTime.UtcNow,
+            AtualizadoEm = DateTime.UtcNow,
+            Endereco = new Endereco
+            {
+                Id = Guid.NewGuid(),
+                ClienteId = clientId,
+                Logradouro = request.Endereco.Logradouro,
+                Numero = request.Endereco.Numero,
+                Complemento = request.Endereco.Complemento,
+                Bairro = request.Endereco.Bairro,
+                Cidade = request.Endereco.Cidade,
+                Estado = request.Endereco.Estado,
+                Cep = request.Endereco.Cep
+            }
+        };
+    }
+
     public void AtualizarCliente(AtualizarClienteRequest request)
     {
         Nome = request.Nome;
@@ -20,6 +47,6 @@ public class Cliente
 
         Endereco.AtualizarEndereco(request.Endereco);
 
-        AtualizadoEm = DateTime.Now;
+        AtualizadoEm = DateTime.UtcNow;
     }
 }

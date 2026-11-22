@@ -20,11 +20,13 @@
 -- 1) Permissões (formato recurso:acao)
 -- ----------------------------------------------------------------------------
 INSERT INTO "Permissions" ("Codigo", "Recurso", "Acao", "Descricao") VALUES
-    ('usuarios:gerenciar',  'usuarios',   'gerenciar','Gerenciar usuarios'),
+    ('usuarios:gerenciar','usuarios', 'gerenciar', 'Gerenciar usuarios'),
     ('roles:gerenciar',     'roles',      'gerenciar','Gerenciar roles'),
     ('permissoes:gerenciar','permissoes', 'gerenciar','Gerenciar permissoes'),
     ('clientes:ler',        'clientes',   'ler',      'Visualizar clientes'),
-    ('clientes:escrever',   'clientes',   'escrever', 'Criar e editar clientes')
+    ('clientes:escrever',   'clientes',   'escrever', 'Criar e editar clientes'),
+    ('marcas:ler',        'marcas',   'ler',      'Visualizar marcas'),
+    ('marcas:escrever',   'marcas',   'escrever', 'Criar e editar marcas')
 ON CONFLICT ("Codigo") DO NOTHING;
 
 -- ----------------------------------------------------------------------------
@@ -50,7 +52,7 @@ SELECT
     p."Id"
 FROM
     "Roles" r
-CROSS JOIN
+        CROSS JOIN
     "Permissions" p
 WHERE
     r."Nome" = 'Admin'
@@ -58,14 +60,22 @@ ON CONFLICT DO NOTHING;
 
 -- Gerente recebe 8 permissões operacionais.
 INSERT INTO "RolePermissions" ("RoleId", "PermissionId")
-SELECT r."Id", p."Id"
-FROM "Roles" r
-         JOIN "Permissions" p ON p."Codigo" IN (
-                                                'clientes:ler',
-                                                'clientes:escrever'
+SELECT
+    r."Id",
+    p."Id"
+FROM
+    "Roles" r
+JOIN
+    "Permissions" p ON p."Codigo" IN
+    (
+        'clientes:ler',
+        'clientes:escrever',
+        'mracas:ler',
+        'marcas:escrever'
     )
-WHERE r."Nome" = 'Gerente'
-    ON CONFLICT DO NOTHING;
+WHERE
+    r."Nome" = 'Gerente'
+ON CONFLICT DO NOTHING;
 
 -- Cliente NÃO recebe nenhuma permissão (nenhum insert — intencional).
 
