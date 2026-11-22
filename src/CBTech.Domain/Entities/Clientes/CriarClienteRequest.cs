@@ -1,6 +1,6 @@
 using CBTech.Domain.Entities.Enderecos;
 
-namespace CBTech.Application.UseCases.V1.Clientes.CriarCliente;
+namespace CBTech.Domain.Entities.Clientes;
 
 public record CriarClienteRequest(
     string Nome,

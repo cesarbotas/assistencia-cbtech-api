@@ -1,4 +1,5 @@
 using CBTech.Domain.Common;
+using CBTech.Domain.Entities.Clientes;
 
 namespace CBTech.Application.UseCases.V1.Clientes.CriarCliente;
 

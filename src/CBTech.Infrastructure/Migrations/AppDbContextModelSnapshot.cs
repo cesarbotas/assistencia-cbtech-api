@@ -212,6 +212,7 @@ namespace CBTech.Infrastructure.Migrations
             modelBuilder.Entity("CBTech.Domain.Entities.Clientes.Cliente", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("AtualizadoEm")
@@ -284,7 +285,32 @@ namespace CBTech.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClienteId")
+                        .IsUnique();
+
                     b.ToTable("Enderecos", (string)null);
+                });
+
+            modelBuilder.Entity("CBTech.Domain.Entities.Marcas.Marca", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("AtualizadoEm")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("CriadoEm")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Marcas", (string)null);
                 });
 
             modelBuilder.Entity("CBTech.Domain.Entities.Auth.RefreshToken", b =>
@@ -334,15 +360,13 @@ namespace CBTech.Infrastructure.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("CBTech.Domain.Entities.Clientes.Cliente", b =>
+            modelBuilder.Entity("CBTech.Domain.Entities.Enderecos.Endereco", b =>
                 {
-                    b.HasOne("CBTech.Domain.Entities.Enderecos.Endereco", "Endereco")
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("CBTech.Domain.Entities.Clientes.Cliente", null)
+                        .WithOne("Endereco")
+                        .HasForeignKey("CBTech.Domain.Entities.Enderecos.Endereco", "ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Endereco");
                 });
 
             modelBuilder.Entity("CBTech.Domain.Entities.Auth.Permission", b =>
@@ -360,6 +384,12 @@ namespace CBTech.Infrastructure.Migrations
             modelBuilder.Entity("CBTech.Domain.Entities.Auth.Usuarios.Usuario", b =>
                 {
                     b.Navigation("UsuarioRoles");
+                });
+
+            modelBuilder.Entity("CBTech.Domain.Entities.Clientes.Cliente", b =>
+                {
+                    b.Navigation("Endereco")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

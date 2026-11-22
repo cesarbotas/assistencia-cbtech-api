@@ -28,7 +28,7 @@ public static class ClientesEndpoints
 
         group.MapGet("/{id:guid}", async (Guid id, IConsultarClientePorIdHandler handler, CancellationToken ct) =>
                 (await handler.Handle(id, ct)).ToHttpResult())
-            .RequirePermission("clientes:escrever");
+            .RequirePermission("clientes:ler");
 
         group.MapPost("/", async ([FromBody] CriarClienteRequest request, ICriarClienteHandler handler, CancellationToken ct) =>
             (await handler.Handle(request, ct)).ToHttpResult(StatusCodes.Status201Created))

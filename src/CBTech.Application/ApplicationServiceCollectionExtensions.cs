@@ -11,6 +11,11 @@ using CBTech.Application.UseCases.V1.Clientes.CriarCliente;
 using CBTech.Application.UseCases.V1.Clientes.ExcluirCliente;
 using CBTech.Application.UseCases.V1.Clientes.ListarClientes;
 using CBTech.Application.UseCases.V1.Enderecos.BuscarEnderecoPorCep;
+using CBTech.Application.UseCases.V1.Marcas.AtualizarMarca;
+using CBTech.Application.UseCases.V1.Marcas.ConsultarMarcaPorId;
+using CBTech.Application.UseCases.V1.Marcas.CriarMarca;
+using CBTech.Application.UseCases.V1.Marcas.ExcluirMarca;
+using CBTech.Application.UseCases.V1.Marcas.ListarMarcas;
 using CBTech.Application.UseCases.V1.Roles.CreateRole;
 using CBTech.Application.UseCases.V1.Roles.DeleteRole;
 using CBTech.Application.UseCases.V1.Roles.GetRoleById;
@@ -90,6 +95,16 @@ public static class ApplicationServiceCollectionExtensions
         services.AddScoped<IAtualizarClienteHandler, AtualizarClienteHandler>();
         services.AddScoped<IExcluirClienteHandler, ExcluirClienteHandler>();
         services.AddScoped<IConsultarClientePorIdHandler, ConsultarClientePorIdHandler>();
+
+        #endregion
+
+        #region Marcas
+
+        services.AddScoped<IListarMarcasHandler, ListarMarcasHandler>();
+        services.AddScoped<ICriarMarcaHandler, CriarMarcaHandler>();
+        services.AddScoped<IAtualizarMarcaHandler, AtualizarMarcaHandler>();
+        services.AddScoped<IExcluirMarcaHandler, ExcluirMarcaHandler>();
+        services.AddScoped<IConsultarMarcaPorIdHandler, ConsultarMarcaPorIdHandler>();
 
         #endregion
 
