@@ -21,6 +21,11 @@ using CBTech.Application.UseCases.V1.Aparelhos.CriarAparelho;
 using CBTech.Application.UseCases.V1.Aparelhos.ExcluirAparelho;
 using CBTech.Application.UseCases.V1.Aparelhos.ListarAparelhos;
 using CBTech.Application.UseCases.V1.Aparelhos.ListarAparelhosPorCliente;
+using CBTech.Application.UseCases.V1.Fornecedores.AtualizarFornecedor;
+using CBTech.Application.UseCases.V1.Fornecedores.ConsultarFornecedorPorId;
+using CBTech.Application.UseCases.V1.Fornecedores.CriarFornecedor;
+using CBTech.Application.UseCases.V1.Fornecedores.ExcluirFornecedor;
+using CBTech.Application.UseCases.V1.Fornecedores.ListarFornecedores;
 using CBTech.Application.UseCases.V1.Roles.CreateRole;
 using CBTech.Application.UseCases.V1.Roles.DeleteRole;
 using CBTech.Application.UseCases.V1.Roles.GetRoleById;
@@ -120,6 +125,16 @@ public static class ApplicationServiceCollectionExtensions
         services.AddScoped<IListarAparelhosHandler, ListarAparelhosHandler>();
         services.AddScoped<IAtualizarAparelhoHandler, AtualizarAparelhoHandler>();
         services.AddScoped<IExcluirAparelhoHandler, ExcluirAparelhoHandler>();
+
+        #endregion
+
+        #region Fornecedores
+
+        services.AddScoped<IListarFornecedoresHandler, ListarFornecedoresHandler>();
+        services.AddScoped<ICriarFornecedorHandler, CriarFornecedorHandler>();
+        services.AddScoped<IAtualizarFornecedorHandler, AtualizarFornecedorHandler>();
+        services.AddScoped<IExcluirFornecedorHandler, ExcluirFornecedorHandler>();
+        services.AddScoped<IConsultarFornecedorPorIdHandler, ConsultarFornecedorPorIdHandler>();
 
         #endregion
 
