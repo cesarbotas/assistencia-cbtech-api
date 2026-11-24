@@ -1,6 +1,8 @@
 using CBTech.Api.Endpoints.V1;
 using CBTech.Api.Endpoints.V1.Auth;
+using CBTech.Api.Endpoints.V1.Aparelhos;
 using CBTech.Api.Endpoints.V1.Clientes;
+using CBTech.Api.Endpoints.V1.Fornecedores;
 using CBTech.Api.Endpoints.V1.Marcas;
 
 namespace CBTech.Api.Extensions;
@@ -40,6 +42,10 @@ public static class EndpointRouteBuilderExtensions
 
         ClientesEndpoints.Map(v1.MapGroup("/clientes").WithTags("Clientes"));
 
+        FornecedoresEndpoints.Map(v1.MapGroup("/fornecedores").WithTags("Fornecedores"));
+
         MarcasEndpoints.Map(v1.MapGroup("/marcas").WithTags("Marcas"));
+
+        AparelhosEndpoints.Map(v1.MapGroup("/aparelhos").WithTags("Aparelhos"));
     }
 }
