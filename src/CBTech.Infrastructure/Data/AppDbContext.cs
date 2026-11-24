@@ -6,8 +6,12 @@ using CBTech.Infrastructure.Data.Configurations.Auth;
 using CBTech.Domain.Entities.Clientes;
 using CBTech.Domain.Entities.Enderecos;
 using CBTech.Domain.Entities.Marcas;
+using CBTech.Domain.Entities.Aparelhos;
+using CBTech.Domain.Entities.Fornecedores;
 using CBTech.Infrastructure.Data.Configurations.Clientes;
 using CBTech.Infrastructure.Data.Configurations.Marcas;
+using CBTech.Infrastructure.Data.Configurations.Aparelhos;
+using CBTech.Infrastructure.Data.Configurations.Fornecedores;
 
 namespace CBTech.Infrastructure.Data;
 
@@ -25,6 +29,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     public DbSet<Marca> Marcas => Set<Marca>();
 
+    public DbSet<Aparelho> Aparelhos => Set<Aparelho>();
+
+    public DbSet<Fornecedor> Fornecedores => Set<Fornecedor>();
+    public DbSet<EnderecoFornecedor> EnderecosFornecedores => Set<EnderecoFornecedor>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UsuarioConfiguration());
@@ -38,6 +47,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.ApplyConfiguration(new EnderecoConfiguration());
 
         modelBuilder.ApplyConfiguration(new MarcaConfiguration());
+
+        modelBuilder.ApplyConfiguration(new AparelhoConfiguration());
+
+        modelBuilder.ApplyConfiguration(new FornecedorConfiguration());
+        modelBuilder.ApplyConfiguration(new EnderecoFornecedorConfiguration());
 
         base.OnModelCreating(modelBuilder);
     }

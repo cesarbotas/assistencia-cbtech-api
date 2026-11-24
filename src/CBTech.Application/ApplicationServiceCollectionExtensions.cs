@@ -16,6 +16,16 @@ using CBTech.Application.UseCases.V1.Marcas.ConsultarMarcaPorId;
 using CBTech.Application.UseCases.V1.Marcas.CriarMarca;
 using CBTech.Application.UseCases.V1.Marcas.ExcluirMarca;
 using CBTech.Application.UseCases.V1.Marcas.ListarMarcas;
+using CBTech.Application.UseCases.V1.Aparelhos.AtualizarAparelho;
+using CBTech.Application.UseCases.V1.Aparelhos.CriarAparelho;
+using CBTech.Application.UseCases.V1.Aparelhos.ExcluirAparelho;
+using CBTech.Application.UseCases.V1.Aparelhos.ListarAparelhos;
+using CBTech.Application.UseCases.V1.Aparelhos.ListarAparelhosPorCliente;
+using CBTech.Application.UseCases.V1.Fornecedores.AtualizarFornecedor;
+using CBTech.Application.UseCases.V1.Fornecedores.ConsultarFornecedorPorId;
+using CBTech.Application.UseCases.V1.Fornecedores.CriarFornecedor;
+using CBTech.Application.UseCases.V1.Fornecedores.ExcluirFornecedor;
+using CBTech.Application.UseCases.V1.Fornecedores.ListarFornecedores;
 using CBTech.Application.UseCases.V1.Roles.CreateRole;
 using CBTech.Application.UseCases.V1.Roles.DeleteRole;
 using CBTech.Application.UseCases.V1.Roles.GetRoleById;
@@ -105,6 +115,26 @@ public static class ApplicationServiceCollectionExtensions
         services.AddScoped<IAtualizarMarcaHandler, AtualizarMarcaHandler>();
         services.AddScoped<IExcluirMarcaHandler, ExcluirMarcaHandler>();
         services.AddScoped<IConsultarMarcaPorIdHandler, ConsultarMarcaPorIdHandler>();
+
+        #endregion
+
+        #region Aparelhos
+
+        services.AddScoped<ICriarAparelhoHandler, CriarAparelhoHandler>();
+        services.AddScoped<IListarAparelhosPorClienteHandler, ListarAparelhosPorClienteHandler>();
+        services.AddScoped<IListarAparelhosHandler, ListarAparelhosHandler>();
+        services.AddScoped<IAtualizarAparelhoHandler, AtualizarAparelhoHandler>();
+        services.AddScoped<IExcluirAparelhoHandler, ExcluirAparelhoHandler>();
+
+        #endregion
+
+        #region Fornecedores
+
+        services.AddScoped<IListarFornecedoresHandler, ListarFornecedoresHandler>();
+        services.AddScoped<ICriarFornecedorHandler, CriarFornecedorHandler>();
+        services.AddScoped<IAtualizarFornecedorHandler, AtualizarFornecedorHandler>();
+        services.AddScoped<IExcluirFornecedorHandler, ExcluirFornecedorHandler>();
+        services.AddScoped<IConsultarFornecedorPorIdHandler, ConsultarFornecedorPorIdHandler>();
 
         #endregion
 
