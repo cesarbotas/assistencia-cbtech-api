@@ -35,6 +35,21 @@
 			"key": "aparelhoId",
 			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "fornecedorId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "categoriaId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "produtoId",
+			"value": "",
+			"type": "string"
 		}
 	],
 	"item": [
@@ -53,10 +68,12 @@
 									"});",
 									"",
 									"pm.test(\"Save tokens\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    if (jsonData && jsonData.data) {",
-									"        pm.collectionVariables.set(\"accessToken\", jsonData.data.accessToken);",
-									"        pm.collectionVariables.set(\"refreshToken\", jsonData.data.refreshToken);",
+								"    var jsonData = pm.response.json();",
+								"    var tokenData = jsonData && (jsonData.data || jsonData);",
+								"    if (tokenData && tokenData.accessToken && tokenData.refreshToken) {",
+								"        pm.collectionVariables.set(\"accessToken\", tokenData.accessToken);",
+								"        pm.collectionVariables.set(\"refreshToken\", tokenData.refreshToken);",
+								"        if (pm.environment.name) { pm.environment.set(\"accessToken\", tokenData.accessToken); pm.environment.set(\"refreshToken\", tokenData.refreshToken); }",
 									"        console.log(\"Tokens salvos com sucesso!\");",
 									"    }",
 									"});"
@@ -148,10 +165,12 @@
 									"});",
 									"",
 									"pm.test(\"Update tokens\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    if (jsonData && jsonData.data) {",
-									"        pm.collectionVariables.set(\"accessToken\", jsonData.data.accessToken);",
-									"        pm.collectionVariables.set(\"refreshToken\", jsonData.data.refreshToken);",
+								"    var jsonData = pm.response.json();",
+								"    var tokenData = jsonData && (jsonData.data || jsonData);",
+								"    if (tokenData && tokenData.accessToken && tokenData.refreshToken) {",
+								"        pm.collectionVariables.set(\"accessToken\", tokenData.accessToken);",
+								"        pm.collectionVariables.set(\"refreshToken\", tokenData.refreshToken);",
+								"        if (pm.environment.name) { pm.environment.set(\"accessToken\", tokenData.accessToken); pm.environment.set(\"refreshToken\", tokenData.refreshToken); }",
 									"        console.log(\"Tokens atualizados com sucesso!\");",
 									"    }",
 									"});"
@@ -1272,11 +1291,13 @@
 									"    pm.response.to.have.status(201);",
 									"});",
 									"",
-									"pm.test(\"Save clienteId\", function () {",
+								"pm.test(\"Save clienteId\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    if (jsonData && jsonData.data && jsonData.data.id) {",
-									"        pm.collectionVariables.set(\"clienteId\", jsonData.data.id);",
-									"        console.log(\"Cliente ID salvo: \" + jsonData.data.id);",
+									"    var clienteId = jsonData && (jsonData.id || (jsonData.data && jsonData.data.id));",
+									"    if (clienteId) {",
+									"        pm.collectionVariables.set(\"clienteId\", clienteId);",
+									"        if (pm.environment.name) pm.environment.set(\"clienteId\", clienteId);",
+									"        console.log(\"Cliente ID salvo: \" + clienteId);",
 									"    }",
 									"});"
 								],
@@ -1891,6 +1912,239 @@
 							]
 						},
 						"description": "Consulta pública de endereço por CEP para autopreenchimento. Não requer autenticação."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fornecedores",
+			"item": [
+				{
+					"name": "Listar Fornecedores",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }] },
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/api/v1/fornecedores?pagina=1&tamanho=10&search="
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar Fornecedor por ID",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }] },
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/api/v1/fornecedores/{{fornecedorId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Fornecedor",
+					"event": [{
+						"listen": "test",
+						"script": {
+							"exec": [
+								"pm.test(\"Status code is 201\", function () { pm.response.to.have.status(201); });",
+								"var responseData = pm.response.json();",
+								"var fornecedorId = responseData && (responseData.id || (responseData.data && responseData.data.id));",
+								"if (fornecedorId) { pm.collectionVariables.set(\"fornecedorId\", fornecedorId); if (pm.environment.name) pm.environment.set(\"fornecedorId\", fornecedorId); }"
+							],
+							"type": "text/javascript"
+						}
+					}],
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }] },
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nomeFantasia\": \"CBTech Pecas\",\n    \"razaoSocial\": \"CBTech Comercio de Pecas LTDA\",\n    \"cnpj\": null,\n    \"contato\": null,\n    \"telefone\": \"1123456789\",\n    \"whatsapp\": null,\n    \"email\": null,\n    \"endereco\": null,\n    \"prazoEntregaDias\": 1,\n    \"condicaoPagamento\": \"Boleto 28 dias / PIX\",\n    \"ativo\": true\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": "{{baseUrl}}/api/v1/fornecedores",
+						"description": "O endereco e opcional; use null ou envie o objeto endereco para informar os dados."
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Fornecedor",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }] },
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nomeFantasia\": \"CBTech Pecas Atualizado\",\n    \"razaoSocial\": \"CBTech Comercio de Pecas LTDA\",\n    \"cnpj\": null,\n    \"contato\": null,\n    \"telefone\": \"1123456789\",\n    \"whatsapp\": null,\n    \"email\": null,\n    \"endereco\": null,\n    \"prazoEntregaDias\": 2,\n    \"condicaoPagamento\": \"Boleto 28 dias / PIX\",\n    \"ativo\": true\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": "{{baseUrl}}/api/v1/fornecedores/{{fornecedorId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir Fornecedor",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }] },
+						"method": "DELETE",
+						"header": [],
+						"url": "{{baseUrl}}/api/v1/fornecedores/{{fornecedorId}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categorias",
+			"item": [
+				{
+					"name": "Listar Categorias",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }] },
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/api/v1/categorias?pagina=1&tamanho=10&search="
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar Categoria por ID",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }] },
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/api/v1/categorias/{{categoriaId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Categoria",
+					"event": [{
+						"listen": "test",
+						"script": {
+							"exec": [
+								"pm.test(\"Status code is 201\", function () { pm.response.to.have.status(201); });",
+								"var responseData = pm.response.json();",
+								"var categoriaId = responseData && (responseData.id || (responseData.data && responseData.data.id));",
+								"if (categoriaId) { pm.collectionVariables.set(\"categoriaId\", categoriaId); if (pm.environment.name) pm.environment.set(\"categoriaId\", categoriaId); }"
+							],
+							"type": "text/javascript"
+						}
+					}],
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }] },
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Telas e Displays\",\n    \"descricao\": \"Pecas para telas de smartphones\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": "{{baseUrl}}/api/v1/categorias"
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Categoria",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }] },
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Telas e Displays Atualizado\",\n    \"descricao\": \"Pecas para telas de smartphones\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": "{{baseUrl}}/api/v1/categorias/{{categoriaId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir Categoria",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }] },
+						"method": "DELETE",
+						"header": [],
+						"url": "{{baseUrl}}/api/v1/categorias/{{categoriaId}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Produtos",
+			"item": [
+				{
+					"name": "Listar Produtos",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }] },
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/api/v1/produtos?pagina=1&tamanho=10&search="
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar Produto por ID",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }] },
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/api/v1/produtos/{{produtoId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Produto",
+					"event": [{
+						"listen": "test",
+						"script": {
+							"exec": [
+								"pm.test(\"Status code is 201\", function () { pm.response.to.have.status(201); });",
+								"var responseData = pm.response.json();",
+								"var produtoId = responseData && (responseData.id || (responseData.data && responseData.data.id));",
+								"if (produtoId) { pm.collectionVariables.set(\"produtoId\", produtoId); if (pm.environment.name) pm.environment.set(\"produtoId\", produtoId); }"
+							],
+							"type": "text/javascript"
+						}
+					}],
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }] },
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Tela Frontal OLED iPhone 13\",\n    \"sku\": \"TEL-IP13-OLED\",\n    \"codigoBarras\": \"7891234567890\",\n    \"categoriaId\": \"{{categoriaId}}\",\n    \"fornecedorId\": \"{{fornecedorId}}\",\n    \"precoCusto\": 350.00,\n    \"precoVenda\": 650.00,\n    \"estoqueAtual\": 12,\n    \"estoqueMinimo\": 3,\n    \"unidadeMedida\": \"UN\",\n    \"ativo\": true\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": "{{baseUrl}}/api/v1/produtos",
+						"description": "Crie primeiro uma categoria e um fornecedor para preencher categoriaId e fornecedorId."
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Produto",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }] },
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Tela Frontal OLED iPhone 13\",\n    \"sku\": \"TEL-IP13-OLED\",\n    \"codigoBarras\": \"7891234567890\",\n    \"categoriaId\": \"{{categoriaId}}\",\n    \"fornecedorId\": \"{{fornecedorId}}\",\n    \"precoCusto\": 350.00,\n    \"precoVenda\": 650.00,\n    \"estoqueAtual\": 12,\n    \"estoqueMinimo\": 3,\n    \"unidadeMedida\": \"UN\",\n    \"ativo\": true\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": "{{baseUrl}}/api/v1/produtos/{{produtoId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir Produto",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }] },
+						"method": "DELETE",
+						"header": [],
+						"url": "{{baseUrl}}/api/v1/produtos/{{produtoId}}"
 					},
 					"response": []
 				}

@@ -11,6 +11,8 @@ using CBTech.Infrastructure.Data.Repositories.Clientes;
 using CBTech.Infrastructure.Data.Repositories.Fornecedores;
 using CBTech.Infrastructure.Data.Repositories.Marcas;
 using CBTech.Infrastructure.Data.Repositories.Aparelhos;
+using CBTech.Infrastructure.Data.Repositories.Categorias;
+using CBTech.Infrastructure.Data.Repositories.Produtos;
 using CBTech.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -39,6 +41,9 @@ public static class InfrastructureServiceCollectionExtensions
         services.AddScoped<IMarcaRepository, MarcaRepository>();
 
         services.AddScoped<IAparelhoRepository, AparelhoRepository>();
+
+        services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+        services.AddScoped<IProdutoRepository, ProdutoRepository>();
 
         #endregion
 
