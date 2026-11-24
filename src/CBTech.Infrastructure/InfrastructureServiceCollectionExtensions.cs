@@ -9,6 +9,7 @@ using Amazon.Runtime;
 using Amazon.S3;
 using CBTech.Infrastructure.Data.Repositories.Clientes;
 using CBTech.Infrastructure.Data.Repositories.Marcas;
+using CBTech.Infrastructure.Data.Repositories.Aparelhos;
 using CBTech.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +34,8 @@ public static class InfrastructureServiceCollectionExtensions
         services.AddScoped<IClienteRepository, ClienteRepository>();
 
         services.AddScoped<IMarcaRepository, MarcaRepository>();
+
+        services.AddScoped<IAparelhoRepository, AparelhoRepository>();
 
         #endregion
 
