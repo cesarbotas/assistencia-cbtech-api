@@ -25,4 +25,9 @@
       <Folder Include="Infrastructure\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="../../src/CBTech.Application/CBTech.Application.csproj" />
+      <ProjectReference Include="../../src/CBTech.Domain/CBTech.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

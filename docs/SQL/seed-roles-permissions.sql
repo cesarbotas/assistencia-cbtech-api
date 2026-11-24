@@ -12,8 +12,8 @@
 -- Nomes de tabela/coluna seguem o padrão do EF/Npgsql: PascalCase com aspas
 -- duplas (identificadores case-sensitive no PostgreSQL).
 --
--- Conteúdo: 12 permissões, 3 roles de sistema, vínculos role→permissão
---   (Admin = todas as 12, Gerente = 8, Cliente = nenhuma).
+-- Conteúdo: 15 permissões, 3 roles de sistema, vínculos role→permissão
+--   (Admin = todas as 15, Gerente = 12, Cliente = nenhuma).
 -- ============================================================================
 
 -- ----------------------------------------------------------------------------
@@ -30,7 +30,11 @@ INSERT INTO "Permissions" ("Codigo", "Recurso", "Acao", "Descricao") VALUES
     ('aparelhos:ler',        'aparelhos',   'ler',      'Visualizar aparelhos'),
     ('aparelhos:escrever',   'aparelhos',   'escrever', 'Criar e editar aparelhos'),
     ('fornecedores:ler',        'fornecedores',   'ler',      'Visualizar fornecedores'),
-    ('fornecedores:escrever',   'fornecedores',   'escrever', 'Criar e editar fornecedores')
+    ('fornecedores:escrever',   'fornecedores',   'escrever', 'Criar e editar fornecedores'),
+    ('categorias:ler',          'categorias',     'ler',      'Visualizar categorias'),
+    ('categorias:escrever',     'categorias',     'escrever', 'Criar e editar categorias'),
+    ('produtos:ler',            'produtos',      'ler',      'Visualizar produtos'),
+    ('produtos:escrever',       'produtos',      'escrever', 'Criar e editar produtos')
 ON CONFLICT ("Codigo") DO NOTHING;
 
 -- ----------------------------------------------------------------------------
@@ -49,7 +53,7 @@ ON CONFLICT ("Nome") DO NOTHING;
 -- 3) Vínculos role → permissão
 -- ----------------------------------------------------------------------------
 
--- Admin recebe TODAS as 12 permissões (CROSS JOIN com o catálogo).
+-- Admin recebe TODAS as 15 permissões (CROSS JOIN com o catálogo).
 INSERT INTO "RolePermissions" ("RoleId", "PermissionId")
 SELECT
     r."Id",
@@ -62,7 +66,7 @@ WHERE
     r."Nome" = 'Admin'
 ON CONFLICT DO NOTHING;
 
--- Gerente recebe 8 permissões operacionais.
+-- Gerente recebe 12 permissões operacionais.
 INSERT INTO "RolePermissions" ("RoleId", "PermissionId")
 SELECT
     r."Id",
@@ -79,7 +83,11 @@ JOIN
         'aparelhos:ler',
         'aparelhos:escrever',
         'fornecedores:ler',
-        'fornecedores:escrever'
+        'fornecedores:escrever',
+        'categorias:ler',
+        'categorias:escrever',
+        'produtos:ler',
+        'produtos:escrever'
     )
 WHERE
     r."Nome" = 'Gerente'
@@ -90,10 +98,10 @@ ON CONFLICT DO NOTHING;
 -- ============================================================================
 -- Conferência (queries de verificação — opcionais)
 -- ============================================================================
--- Total de permissões (esperado: 12):
+-- Total de permissões (esperado: 15):
 --   SELECT COUNT(*) FROM "Permissions";
 --
--- Permissões por role (esperado: Admin=12, Gerente=8, Cliente=0):
+-- Permissões por role (esperado: Admin=15, Gerente=12, Cliente=0):
 --   SELECT r."Nome", COUNT(rp."PermissionId") AS total
 --   FROM "Roles" r
 --   LEFT JOIN "RolePermissions" rp ON rp."RoleId" = r."Id"
