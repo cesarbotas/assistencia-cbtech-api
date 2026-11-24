@@ -26,7 +26,9 @@ INSERT INTO "Permissions" ("Codigo", "Recurso", "Acao", "Descricao") VALUES
     ('clientes:ler',        'clientes',   'ler',      'Visualizar clientes'),
     ('clientes:escrever',   'clientes',   'escrever', 'Criar e editar clientes'),
     ('marcas:ler',        'marcas',   'ler',      'Visualizar marcas'),
-    ('marcas:escrever',   'marcas',   'escrever', 'Criar e editar marcas')
+    ('marcas:escrever',   'marcas',   'escrever', 'Criar e editar marcas'),
+    ('aparelhos:ler',        'aparelhos',   'ler',      'Visualizar aparelhos'),
+    ('aparelhos:escrever',   'aparelhos',   'escrever', 'Criar e editar aparelhos')
 ON CONFLICT ("Codigo") DO NOTHING;
 
 -- ----------------------------------------------------------------------------
@@ -70,8 +72,10 @@ JOIN
     (
         'clientes:ler',
         'clientes:escrever',
-        'mracas:ler',
-        'marcas:escrever'
+        'marcas:ler',
+        'marcas:escrever',
+        'aparelhos:ler',
+        'aparelhos:escrever'
     )
 WHERE
     r."Nome" = 'Gerente'

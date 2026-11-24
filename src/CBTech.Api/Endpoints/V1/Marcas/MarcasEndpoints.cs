@@ -24,7 +24,7 @@ public static class MarcasEndpoints
                     return result.ToHttpResult();
                 })
                 .Produces<MarcaResponse>(StatusCodes.Status200OK)
-                .RequirePermission("Marcas:ler");
+                .RequirePermission("marcas:ler");
 
             group.MapGet("/{id:guid}", async (Guid id, IConsultarMarcaPorIdHandler handler, CancellationToken ct) =>
                     (await handler.Handle(id, ct)).ToHttpResult())
