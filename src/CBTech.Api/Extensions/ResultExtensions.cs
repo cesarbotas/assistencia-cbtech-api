@@ -11,7 +11,7 @@ public static class ResultExtensions
             return Results.ValidationProblem(result.ValidationErrors.ToDictionary(k => k.Key, v => v.Value));
 
         if (!result.IsSuccess)
-            return Results.Problem(result.Error, statusCode: StatusCodes.Status400BadRequest);
+            return Results.Problem(result.Error, statusCode: result.StatusCode ?? StatusCodes.Status400BadRequest);
 
         return successCode == StatusCodes.Status201Created
             ? Results.Created(string.Empty, result.Data)

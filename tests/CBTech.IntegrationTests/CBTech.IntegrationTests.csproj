@@ -27,4 +27,8 @@
       <ProjectReference Include="..\..\src\CBTech.Api\CBTech.Api.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="appsettings.Test.json" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
 </Project>

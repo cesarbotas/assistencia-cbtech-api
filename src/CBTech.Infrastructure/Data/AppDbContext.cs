@@ -12,6 +12,10 @@ using CBTech.Infrastructure.Data.Configurations.Clientes;
 using CBTech.Infrastructure.Data.Configurations.Marcas;
 using CBTech.Infrastructure.Data.Configurations.Aparelhos;
 using CBTech.Infrastructure.Data.Configurations.Fornecedores;
+using CBTech.Domain.Entities.Categorias;
+using CBTech.Domain.Entities.Produtos;
+using CBTech.Infrastructure.Data.Configurations.Categorias;
+using CBTech.Infrastructure.Data.Configurations.Produtos;
 
 namespace CBTech.Infrastructure.Data;
 
@@ -34,6 +38,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Fornecedor> Fornecedores => Set<Fornecedor>();
     public DbSet<EnderecoFornecedor> EnderecosFornecedores => Set<EnderecoFornecedor>();
 
+    public DbSet<Categoria> Categorias => Set<Categoria>();
+    public DbSet<Produto> Produtos => Set<Produto>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UsuarioConfiguration());
@@ -52,6 +59,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
         modelBuilder.ApplyConfiguration(new FornecedorConfiguration());
         modelBuilder.ApplyConfiguration(new EnderecoFornecedorConfiguration());
+
+        modelBuilder.ApplyConfiguration(new CategoriaConfiguration());
+        modelBuilder.ApplyConfiguration(new ProdutoConfiguration());
 
         base.OnModelCreating(modelBuilder);
     }

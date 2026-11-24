@@ -264,6 +264,25 @@ namespace CBTech.Infrastructure.Migrations
                     b.ToTable("UsuarioRoles");
                 });
 
+            modelBuilder.Entity("CBTech.Domain.Entities.Categorias.Categoria", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Descricao")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categorias", (string)null);
+                });
+
             modelBuilder.Entity("CBTech.Domain.Entities.Clientes.Cliente", b =>
                 {
                     b.Property<Guid>("Id")
@@ -476,6 +495,74 @@ namespace CBTech.Infrastructure.Migrations
                     b.ToTable("Marcas", (string)null);
                 });
 
+            modelBuilder.Entity("CBTech.Domain.Entities.Produtos.Produto", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("AtualizadoEm")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CategoriaId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CodigoBarras")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTime>("CriadoEm")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("EstoqueAtual")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("EstoqueMinimo")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("FornecedorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<decimal>("PrecoCusto")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<decimal>("PrecoVenda")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)");
+
+                    b.Property<string>("Sku")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("UnidadeMedida")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoriaId");
+
+                    b.HasIndex("CodigoBarras")
+                        .IsUnique();
+
+                    b.HasIndex("FornecedorId");
+
+                    b.HasIndex("Sku")
+                        .IsUnique();
+
+                    b.ToTable("Produtos", (string)null);
+                });
+
             modelBuilder.Entity("CBTech.Domain.Entities.Aparelhos.Aparelho", b =>
                 {
                     b.HasOne("CBTech.Domain.Entities.Clientes.Cliente", "Cliente")
@@ -558,6 +645,25 @@ namespace CBTech.Infrastructure.Migrations
                         .HasForeignKey("CBTech.Domain.Entities.Fornecedores.EnderecoFornecedor", "FornecedorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CBTech.Domain.Entities.Produtos.Produto", b =>
+                {
+                    b.HasOne("CBTech.Domain.Entities.Categorias.Categoria", "Categoria")
+                        .WithMany()
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CBTech.Domain.Entities.Fornecedores.Fornecedor", "Fornecedor")
+                        .WithMany()
+                        .HasForeignKey("FornecedorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Categoria");
+
+                    b.Navigation("Fornecedor");
                 });
 
             modelBuilder.Entity("CBTech.Domain.Entities.Auth.Permission", b =>
